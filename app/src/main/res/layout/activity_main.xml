@@ -14,6 +14,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editText_wert1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_bar" />
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
@@ -28,8 +42,8 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:clickable="false"
-            android:tag="+"
-            android:text="+"
+            android:tag="@string/plus"
+            android:text="@string/plus"
             tools:layout_editor_absoluteX="50dp" />
 
         <RadioButton
@@ -38,8 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:clickable="false"
-            android:tag="-"
-            android:text="-" />
+            android:tag="@string/minus"
+            android:text="@string/minus" />
 
         <RadioButton
             android:id="@+id/radioButton_multiplication"
@@ -48,8 +62,8 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:clickable="false"
-            android:tag="*"
-            android:text="*" />
+            android:tag="@string/multiply"
+            android:text="@string/multiply" />
 
         <RadioButton
             android:id="@+id/radioButton_division"
@@ -58,10 +72,107 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:clickable="false"
-            android:tag="/"
-            android:text="/" />
+            android:tag="@string/divide"
+            android:text="@string/divide" />
 
     </RadioGroup>
+
+    <EditText
+        android:id="@+id/editText_wert2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <Button
+        android:id="@+id/button_calculate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#B8B6B6"
+        android:fontFamily="sans-serif-medium"
+        android:onClick="calculate"
+        android:text="@string/button_calculate"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_MS"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_wert2" />
+
+    <Button
+        android:id="@+id/button_MS"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:height="50dp"
+        android:backgroundTint="#B8B6B6"
+        android:elegantTextHeight="false"
+        android:onClick="memoryStore"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="2dp"
+        android:text="@string/button_MS"
+        android:textAlignment="center"
+        android:textColor="#D32F2F"
+        android:textSize="14sp"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_MR"
+        app:layout_constraintTop_toBottomOf="@+id/editText_wert2" />
+
+    <Button
+        android:id="@+id/button_MR"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:height="50dp"
+        android:backgroundTint="#B8B6B6"
+        android:elegantTextHeight="false"
+        android:onClick="memoryRead"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="2dp"
+        android:text="@string/button_MR"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_wert2" />
+
+    <TextView
+        android:id="@+id/textView_output"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="#E64A19"
+        android:backgroundTint="#1976D2"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingHorizontal="4dp"
+        android:text="@string/textView_output"
+        android:textAlignment="textEnd"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="@+id/button_calculate"
+        app:layout_constraintTop_toBottomOf="@+id/button_calculate" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -69,15 +180,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

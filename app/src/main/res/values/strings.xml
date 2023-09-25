@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">sew_7a_Calculator</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="multiply">*</string>
+    <string name="divide">/</string>
+    <string name="button_calculate">Calculate</string>
+    <string name="button_MS">MS</string>
+    <string name="button_MR">MR</string>
+    <string name="textView_output">0</string>
 </resources>
