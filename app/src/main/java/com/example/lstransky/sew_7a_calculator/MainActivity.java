@@ -62,26 +62,26 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Value2: " + value2Double);
         Log.d(LOG_TAG, "Radiobutton: " + tag);
         // calculate
-        if (id == -1) {
-            switch(tag) {
-                case "+":
-                    value1Double += value2Double;
-                    break;
-                case "-":
-                    value1Double -= value2Double;
-                    break;
-                case "*":
-                    value1Double *= value2Double;
-                    break;
-                case "/":
-                    value1Double /= value2Double;
-                    break;
-            }
-            Log.d(LOG_TAG, "Result: " + value1Double);
+        switch(tag) {
+            case "+":
+                value1Double += value2Double;
+                break;
+            case "-":
+                value1Double -= value2Double;
+                break;
+            case "*":
+                value1Double *= value2Double;
+                break;
+            case "/":
+                value1Double /= value2Double;
+                break;
+            default:
+                Log.d(LOG_TAG, "Error: No Radiobutton selected!");
+                Toast.makeText(this, "Error: No Radiobutton selected!", Toast.LENGTH_SHORT).show();
+                return;
         }
-        else {
-            Log.d(LOG_TAG, "No Radiobutton selected");
-        }
+        Log.d(LOG_TAG, "Result: " + value1Double);
+
         // display result
         TextView output = findViewById(R.id.textView_output);
         if(String.valueOf(value1Double).length() >9)
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         e.putString("value1", value1.getText().toString());
         e.putString("value2", value2.getText().toString());
         e.putInt("id", id);
+        e.apply();
         Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
     }
 
