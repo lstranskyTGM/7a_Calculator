@@ -25,6 +25,7 @@
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:contentDescription="Calculator"
-        android:onClick="showPopup" />
+        android:onClick="showPopup"
+        android:src="@drawable/ic_drop" />
 
 </androidx.appcompat.widget.Toolbar>
