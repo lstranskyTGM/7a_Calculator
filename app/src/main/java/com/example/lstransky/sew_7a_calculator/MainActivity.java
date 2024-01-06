@@ -157,14 +157,23 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         EditText value1 = findViewById(R.id.value1);
         EditText value2 = findViewById(R.id.value2);
         RadioGroup rg = findViewById(R.id.radioGroup);
-        int id = rg.getCheckedRadioButtonId();
-        if (value1.getText().toString().equals("") || value2.getText().toString().equals("") || id == -1) {
-            Toast.makeText(this, "Error. EditText empty or no Radio Button selected!", Toast.LENGTH_SHORT).show();
+        Spinner spinner = findViewById(R.id.spinner);
+        if (value1.getText().toString().equals("") || value2.getText().toString().equals("") || (rg.getVisibility() == View.VISIBLE && rg.getCheckedRadioButtonId() == -1)) {
+            Toast.makeText(this, "Error. EditText empty or no Operation selected!", Toast.LENGTH_SHORT).show();
             return;
         }
         e.putString("value1", value1.getText().toString());
         e.putString("value2", value2.getText().toString());
-        e.putInt("id", id);
+        // Choose between RadioButtons and Spinner
+        if (rg.getVisibility() == View.VISIBLE) {
+            int id = rg.getCheckedRadioButtonId();
+            e.putInt("id", id);
+            e.putBoolean("usingRadioGroup", true);
+        } else {
+            int spinnerPosition = spinner.getSelectedItemPosition();
+            e.putInt("spinnerPosition", spinnerPosition);
+            e.putBoolean("usingRadioGroup", false);
+        }
         e.apply();
         Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
     }
@@ -178,9 +187,18 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         EditText value1 = findViewById(R.id.value1);
         EditText value2 = findViewById(R.id.value2);
         RadioGroup rg = findViewById(R.id.radioGroup);
+        Spinner spinner = findViewById(R.id.spinner);
         value1.setText(sh.getString("value1", ""));
         value2.setText(sh.getString("value2", ""));
-        rg.check(sh.getInt("id", -1));
+        // Choose between RadioButtons and Spinner
+        boolean usingRadioGroup = sh.getBoolean("usingRadioGroup", true);
+        if (usingRadioGroup) {
+            int id = sh.getInt("id", -1);
+            rg.check(id);
+        } else {
+            int spinnerPosition = sh.getInt("spinnerPosition", 0);
+            spinner.setSelection(spinnerPosition);
+        }
         Toast.makeText(this, "Data Loaded", Toast.LENGTH_SHORT).show();
     }
 
