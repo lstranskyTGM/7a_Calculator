@@ -8,4 +8,12 @@
     <string name="button_MS">MS</string>
     <string name="button_MR">MR</string>
     <string name="textView_output">0</string>
+    <string name="reset">Reset</string>
+    <string name="about">About</string>
+    <string-array name="operations_array">
+        <item>+</item>
+        <item>-</item>
+        <item>*</item>
+        <item>/</item>
+    </string-array>
 </resources>
