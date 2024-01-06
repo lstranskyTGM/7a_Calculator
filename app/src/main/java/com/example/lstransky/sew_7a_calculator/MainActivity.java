@@ -7,12 +7,18 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +28,7 @@ import android.widget.Toast;
  * @version 2023-10-09
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, AdapterView.OnItemSelectedListener {
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -42,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
             erg2.setText("0");
             return true;
         });
+
+        // Added Spinner creation
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.operations_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     /**
@@ -55,12 +67,19 @@ public class MainActivity extends AppCompatActivity {
         EditText value2 = findViewById(R.id.value2);
         double value2Double = Double.parseDouble(value2.getText().toString());
         RadioGroup rg = findViewById(R.id.radioGroup);
-        int id = rg.getCheckedRadioButtonId();
-        String tag = findViewById(id).getTag().toString();
+        String tag;
+        // Chooses between RadioButtons and Spinner
+        if (rg.getVisibility() == View.VISIBLE) {
+            int id = rg.getCheckedRadioButtonId();
+            tag = findViewById(id).getTag().toString();
+        } else {
+            Spinner spinner = findViewById(R.id.spinner);
+            tag = spinner.getSelectedItem().toString();
+        }
         // write log
         Log.d(LOG_TAG, "Value1: " + value1Double);
         Log.d(LOG_TAG, "Value2: " + value2Double);
-        Log.d(LOG_TAG, "Radiobutton: " + tag);
+        Log.d(LOG_TAG, "Tag: " + tag);
         // calculate
         switch(tag) {
             case "+":
@@ -76,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 value1Double /= value2Double;
                 break;
             default:
-                Log.d(LOG_TAG, "Error: No Radiobutton selected!");
-                Toast.makeText(this, "Error: No Radiobutton selected!", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "Error: No Operator selected!");
+                Toast.makeText(this, "Error: No Operator selected!", Toast.LENGTH_SHORT).show();
                 return;
         }
         Log.d(LOG_TAG, "Result: " + value1Double);
@@ -163,5 +182,84 @@ public class MainActivity extends AppCompatActivity {
         value2.setText(sh.getString("value2", ""));
         rg.check(sh.getInt("id", -1));
         Toast.makeText(this, "Data Loaded", Toast.LENGTH_SHORT).show();
+    }
+
+    // EKv:
+
+    /**
+     * Shows the popup menu when Options button is clicked
+     * @param view the view
+     */
+    public void showPopup(View view){
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setOnMenuItemClickListener(this);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.main_menu, popup.getMenu());
+        popup.show();
+    }
+
+    /**
+     * Rersets all values.
+     */
+    public void resetValues(){
+        Log.d(LOG_TAG, "In resetValues function.");
+        EditText value1 = findViewById(R.id.value1);
+        value1.setText("");
+        EditText value2 = findViewById(R.id.value2);
+        value2.setText("");
+        TextView output = findViewById(R.id.textView_output);
+        output.setText("0");
+        output.setTextColor(Color.parseColor("#FFFFFF"));
+        RadioGroup rg = findViewById(R.id.radioGroup);
+        Spinner spinner = findViewById(R.id.spinner);
+        spinner.setSelection(0);
+        rg.clearCheck();
+    }
+
+    /**
+     * When an item is selected in the spinner
+     * @param adapterView the adapterView
+     * @param view the view
+     * @param i the position
+     * @param l the id
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.d(LOG_TAG, "onItemSelected executed.");
+        Log.d(LOG_TAG, "Item selected: " + adapterView.getItemAtPosition(i).toString());
+        Log.d(LOG_TAG, "View: " + adapterView.getSelectedItem().toString());
+        Log.d(LOG_TAG, "Id: " + adapterView.getId());
+    }
+
+    /**
+     * When nothing is selected in the spinner
+     * @param adapterView the adapterView
+     */
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        Log.d(LOG_TAG, "onNothingSelected executed.");
+    }
+
+    /**
+     * When an item is clicked in the popup menu
+     * @param menuItem the menuItem
+     * @return true if clicked
+     */
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        Log.d(LOG_TAG, "onMenuItemClick executed.");
+        String title = menuItem.getTitle().toString();
+        Log.d(LOG_TAG, "Title: " + title);
+        switch (title) {
+            case "Reset":
+                resetValues();
+                return true;
+            case "About":
+                Log.d(LOG_TAG, "In about");
+                Toast.makeText(this, "© Leonhard Stransky; 30.12.2023", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
+        }
     }
 }
